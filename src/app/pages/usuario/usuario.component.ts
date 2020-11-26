@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioModel } from 'src/app/models/usuario.model';
-import { UsuarioService } from '../../services/estudiante.service';
+
 import { EstudianteModel } from '../../models/estudiante.model';
+
+import { ColegioService } from '../../services/colegio.service';
+import { map } from 'rxjs/operators';
+import { EstudianteService } from '../../services/estudiante.service';
 
 @Component({
   selector: 'app-usuario',
@@ -11,32 +15,39 @@ import { EstudianteModel } from '../../models/estudiante.model';
 })
 export class UsuarioComponent implements OnInit {
 
-estudiante: EstudianteModel;
+  estudiante : EstudianteModel;
+  usuario: UsuarioModel;
   datas: any;
-  foros: Array<Object> = [
-    { nombre: "foro1", checked: false },
-    { nombre: "foro2", checked: false },
-    { nombre: "foro3", checked: false },
-    { nombre: "foro4", checked: false }
+  nombre: string;
+  cedula: string;
+  celular: string;
+  lista = [
+    'Preescolar',
+    'Primaria',
+    'bachiller'
   ];
-  constructor(private crud: UsuarioService) { }
+  seleccionado: string;
+  p1 = false;
+  p2 = false;
+  p3 = false;
+  constructor(private crud: ColegioService) { }
 
   ngOnInit(): void {
-    console.log('inicio usuario');
+    
+  }
 
-    this.crud.read_Student().subscribe(res => {
-      // console.log(res);
-      this.datas = res.map(e => {
-        return {
-          id: e.payload.doc.id,
-          email: e.payload.doc.data()['email'],
-          password: e.payload.doc.data()['password'],
-          nombre: e.payload.doc.data()['nombre'],
-          estudiante: e.payload.doc.data()['estudiante']
-        }
-      });
-      console.log(this.datas);
-    });
+  crearEstudiante(){
+    let estudiante = {
+      nombre: this.nombre,
+      cedula: this.cedula,
+      celular: this.celular,
+      grado: this.seleccionado
+    }
+    this.crud.crearEstudiante(estudiante).subscribe(res=>{
+      console.log(res);
+      
+    })
   }
 
 }
+

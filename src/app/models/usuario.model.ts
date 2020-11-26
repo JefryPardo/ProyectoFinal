@@ -4,5 +4,6 @@ export class UsuarioModel {
     email: string;
     password: string;
     nombre: string;
-    idPadre?: string;
-}
+    cedula: string;
+    carril: string;
+}   

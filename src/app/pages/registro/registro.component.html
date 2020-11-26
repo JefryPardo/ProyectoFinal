@@ -23,6 +23,13 @@
                     <span class="focus-input100"></span>
                 </div>
 
+                <span *ngIf="f.submitted && f.controls['cedula'].errors" class="text-danger animated fadeIn">La cedula es obligatorio</span>
+                <div class="wrap-input100 m-b-16">
+                    <input class="input100" type="text" name="cedula" [(ngModel)]="usuario.cedula" minlength="2" required placeholder="Cedula">
+
+                    <span class="focus-input100"></span>
+                </div>
+
                 <span *ngIf="f.submitted && f.controls['password'].errors" class="text-danger animated fadeIn">Al menos 6 letras</span>
                 <div class="wrap-input100 m-b-16">
                     <input class="input100" type="password" name="password" [(ngModel)]="usuario.password" minlength="6" required placeholder="Password">

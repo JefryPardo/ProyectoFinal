@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.service';
 
 import Swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
-import { UsuarioService } from '../../services/estudiante.service';
+import { EstudianteService } from '../../services/estudiante.service';
 import { EstudianteModel } from '../../models/estudiante.model';
 import { ColegioService } from '../../services/colegio.service';
 
@@ -18,10 +18,10 @@ import { ColegioService } from '../../services/colegio.service';
 export class RegistroComponent implements OnInit {
 
   usuario: UsuarioModel;
+  estudiante: EstudianteModel;
   recordarme = false;
-  estudiante: EstudianteModel[] = [];
   constructor(private auth: AuthService,
-    private router: Router, private colegio: ColegioService) { }
+    private router: Router, private colegio: ColegioService, private student: EstudianteService) { }
 
   ngOnInit(): void {
     this.usuario = new UsuarioModel();
@@ -32,7 +32,9 @@ export class RegistroComponent implements OnInit {
     this.usuario = {
       nombre : this.usuario.nombre,
       password: this.usuario.password,
-      email: this.usuario.email
+      email: this.usuario.email,
+      cedula: this.usuario.cedula,
+      carril: "0"
     };
 
     if (form.invalid) { return; }
@@ -54,15 +56,11 @@ export class RegistroComponent implements OnInit {
           localStorage.setItem('email', this.usuario.email);
         }
 
-          this.colegio.create_NewPadre(this.usuario).then(res => {
-      
+          this.colegio.CrearPadre(this.usuario).subscribe(res => {
             console.log(res);
+            
           })
-          .catch(err => {
-            console.log(err);
-          })
-
-        this.router.navigateByUrl('/Home');
+        // this.router.navigateByUrl('/Home');
 
       }, (err) => {
         console.log(err.error.error.message);

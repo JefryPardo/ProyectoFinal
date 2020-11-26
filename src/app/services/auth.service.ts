@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioModel } from '../models/usuario.model';
 import { map } from 'rxjs/operators';
-import { UsuarioService } from './estudiante.service';
+import { EstudianteService } from './estudiante.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class AuthService {
   private apikey = 'AIzaSyCUZEDUp5wdPqVAYAdB4KYPtiwZdPzJG14';
 
   userToken: string;
+  UID: string;
 
   // Crear nuevo usuario
   // https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=[API_KEY]
@@ -21,14 +22,16 @@ export class AuthService {
   // Login
   // https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=[API_KEY]
 
-
-  constructor( private http: HttpClient, private usuario: UsuarioService ) {
+ 
+  constructor( private http: HttpClient, private usuario: EstudianteService ) {
     this.leerToken();
   }
 
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('UID');
+    localStorage.removeItem('expira');
   }
 
   login( usuario: UsuarioModel ) {
@@ -44,6 +47,7 @@ export class AuthService {
     ).pipe(
       map( resp => {
         this.guardarToken( resp['idToken'] );
+        this.guardarUID(resp['localId']);
         return resp;
       })
     );
@@ -63,6 +67,7 @@ export class AuthService {
     ).pipe(
       map( resp => {
         this.guardarToken( resp['idToken'] );
+        this.guardarUID(resp['localId']);
         return resp;
       })
     );
@@ -79,6 +84,13 @@ export class AuthService {
 
     localStorage.setItem('expira', hoy.getTime().toString() );
 
+
+  }
+
+  private guardarUID( UID: string ) {
+
+    this.userToken = UID;
+    localStorage.setItem('UID', UID);
 
   }
 

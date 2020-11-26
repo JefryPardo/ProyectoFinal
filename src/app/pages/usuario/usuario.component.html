@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="container">
 
         <div class="col-5" style="margin-left: 40ch;">
@@ -8,37 +8,22 @@
 
             </div>
         </div>
-
-        <!-- <div class="jumbotron">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Grado</th>
-                        <th scope="col">Accion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-
-                    </tr>
-                </tbody>
-            </table>
-        </div> -->
-
-
-        <!-- <div class="limiter animated fadeInRight">
-            <div>
-                <div *ngFor="let foro of foros">
-                    <input type="checkbox" [(ngModel)]="foro.checked" />
-                    <label>{{foro.nombre}}</label>
-                </div>
-                <pre>{{ foros | json }}</pre>
-            </div> -->
-        <!-- </div> -->
-
-
-
     </div>
+</div> -->
+
+<div>
+    <input type="text" [(ngModel)]="nombre" placeholder="nombre">
+    <input type="text" [(ngModel)]="celular" placeholder="celular">
+    <input type="text" [(ngModel)]="cedula" placeholder="cedula">
+    <p>
+        <select name="miselect" [(ngModel)]="seleccionado">
+        <option [value]="item" *ngFor="let item of lista">{{item}}</option>
+        </select>
+    </p>
+    <ul>
+        <li>
+            {{seleccionado}}
+        </li>
+    </ul>
+    <button (click)="crearEstudiante()">prueba</button>
 </div>
